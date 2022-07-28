@@ -5,6 +5,8 @@
              version="2.1">
 
     <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+        <class>org.dtos.VehicleInfo</class>
+        <class>org.dtos.playerVehicleStatsTables.PlayerVehicleStatsGroundRB</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
@@ -18,6 +20,7 @@
             <property name="hibernate.show_sql" value="false" /> <!-- Show SQL in console -->
             <property name="hibernate.format_sql" value="false" /> <!-- Show SQL formatted -->
         </properties>
+
 
     </persistence-unit>
 
