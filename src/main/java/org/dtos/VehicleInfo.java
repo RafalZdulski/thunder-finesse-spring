@@ -16,15 +16,25 @@ public class VehicleInfo {
     @Id
     @Getter
     String vehicle_id;
+    @Getter
     String name;
+    @Getter
     String type;
+    @Getter
     String status;
+    @Getter
     String klass;
+    @Getter
     String nation;
+    @Getter
     String rank;
+    @Getter
     String arcade_br;
+    @Getter
     String realistic_br;
+    @Getter
     String simulation_br;
+    @Getter
     String picture;
 
     public VehicleInfo(String vehicle_id){
