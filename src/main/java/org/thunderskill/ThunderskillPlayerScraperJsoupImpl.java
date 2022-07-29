@@ -1,7 +1,8 @@
 package org.thunderskill;
 
-import org.dtos.playerVehicleStatsTables.*;
+import org.dtos.Player;
 import org.dtos.VehicleInfo;
+import org.dtos.playerVehicleStatsTables.*;
 import org.enums.Modes;
 import org.enums.VehicleType;
 import org.jsoup.Jsoup;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ThunderskillPlayerScraperJsoupImpl implements ThunderskillPlayerScrapper {
     private static final String baseUrl = "https://thunderskill.com/en/stat/{login}/vehicles/{mode}";
 
+    //TODO need some optimization
     @Override
     public List<PlayerVehicleStats> getPlayerStats(String login, Modes mode, VehicleType type) throws IOException, NoSuchPlayerException {
         String url = baseUrl.replace("{login}", login).replace("{mode}", mode.getLetter());
@@ -27,7 +29,7 @@ public class ThunderskillPlayerScraperJsoupImpl implements ThunderskillPlayerScr
             try {
                 playerVehicleStats.add(parseVehicle(login, mode, type, row));
             }catch (IllegalStateException e){
-                System.err.println(e.getMessage());
+                //System.err.println(e.getMessage());
             }
         }
         return playerVehicleStats;
@@ -76,6 +78,7 @@ public class ThunderskillPlayerScraperJsoupImpl implements ThunderskillPlayerScr
         int airKills = Integer.parseInt(airKillsElement.childNode(1).childNode(0).childNode(0).toString());
         int groundKills = Integer.parseInt(groundKillsElement.childNode(1).childNode(0).childNode(0).toString());
 
+        Player player = new Player(login);
         if (type == VehicleType.Aircraft && mode == Modes.ARCADE)
             return new PlayerVehicleStatsAirAB(login, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
         if (type == VehicleType.Aircraft && mode == Modes.REALISTIC)

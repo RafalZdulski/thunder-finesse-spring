@@ -1,7 +1,9 @@
 package org.thunderskill;
 
+import org.database.PlayerAlreadyInDatabaseException;
 import org.database.PlayerStatsAccessPoint;
 import org.database.postgre.WikiAccessPointPostgre;
+import org.dtos.Player;
 import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
@@ -9,7 +11,6 @@ import org.enums.VehicleType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
 public class ThunderSkillImpl implements ThunderSkill {
@@ -47,10 +48,17 @@ public class ThunderSkillImpl implements ThunderSkill {
                     countDownLatch.countDown();
                 }
             }
+
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        }
+
+        try{
+            playerStatsAccessPoint.savePlayer(new Player(login));
+        } catch (PlayerAlreadyInDatabaseException e){
+            System.err.println(e.getMessage());
         }
     }
 

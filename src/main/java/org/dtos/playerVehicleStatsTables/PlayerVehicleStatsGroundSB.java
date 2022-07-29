@@ -20,6 +20,7 @@ public class PlayerVehicleStatsGroundSB extends PlayerVehicleStats {
     String player_login;
     @Id
     @ManyToOne
+    @Getter
     //@JoinTable(name = "VEHICLE_DETAILS")
     VehicleInfo vehicle;
     @Setter @Getter
