@@ -4,6 +4,7 @@ import org.database.PlayerAlreadyInDatabaseException;
 import org.database.PlayerStatsAccessPoint;
 import org.database.WikiAccessPoint;
 import org.dtos.Player;
+import org.dtos.PlayerModes;
 import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
 import org.dtos.VehicleInfo;
 import org.enums.Modes;
@@ -101,20 +102,47 @@ public class WikiAccessPointPostgre implements WikiAccessPoint, PlayerStatsAcces
         return ret;
     }
 
+    @Override
+    public void savePlayerMode(PlayerModes playerMode) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(playerMode);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    @Override
+    public void updatePlayerMode(PlayerModes playerMode) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.merge(playerMode);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    @Override
+    public void upsertPlayerMode(PlayerModes playerMode) {
+        try{
+            savePlayerMode(playerMode);
+        }catch (RollbackException | IllegalStateException e){
+            updatePlayerMode(playerMode);
+        }
+    }
+
     //TODO there must be easy way to do this query
     private Query getPlayerStatsQuery(EntityManager em, Modes mode, VehicleType type) {
         if (mode == Modes.ARCADE && type == VehicleType.Aircraft)
-            return em.createQuery("SELECT c FROM PlayerVehicleStatsAirAB c WHERE c.player_login = :login");
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsAirAB c WHERE c.player.login = :login");
         if (mode == Modes.ARCADE && type == VehicleType.GroundVehicle)
-            return em.createQuery("SELECT c FROM PlayerVehicleStatsGroundAB c WHERE c.player_login = :login");
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsGroundAB c WHERE c.player.login = :login");
         if (mode == Modes.REALISTIC && type == VehicleType.Aircraft)
-            return em.createQuery("SELECT c FROM PlayerVehicleStatsAirRB c WHERE c.player_login = :login");
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsAirRB c WHERE c.player.login = :login");
         if (mode == Modes.REALISTIC && type == VehicleType.GroundVehicle)
-            return em.createQuery("SELECT c FROM PlayerVehicleStatsGroundRB c WHERE c.player_login = :login");
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsGroundRB c WHERE c.player.login = :login");
         if (mode == Modes.SIMULATION && type == VehicleType.Aircraft)
-            return em.createQuery("SELECT c FROM PlayerVehicleStatsAirSB c WHERE c.player_login = :login");
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsAirSB c WHERE c.player.login = :login");
         if (mode == Modes.SIMULATION && type == VehicleType.GroundVehicle)
-            return em.createQuery("SELECT c FROM PlayerVehicleStatsGroundSB c WHERE c.player_login = :login");
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsGroundSB c WHERE c.player.login = :login");
         throw new IllegalStateException("mode or type not supported");
     }
 

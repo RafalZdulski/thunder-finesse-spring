@@ -1,6 +1,7 @@
 package org.database;
 
 import org.dtos.Player;
+import org.dtos.PlayerModes;
 import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
@@ -20,4 +21,8 @@ public interface PlayerStatsAccessPoint {
 
     List<PlayerVehicleStats> getPlayerStats(Player player, Modes mode, VehicleType type);
 
+    void savePlayerMode(PlayerModes playerMode);
+
+    void updatePlayerMode(PlayerModes playerMode);
+    void upsertPlayerMode(PlayerModes playerMode);
 }

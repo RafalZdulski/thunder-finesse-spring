@@ -3,6 +3,7 @@ package org.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,27 +15,27 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class VehicleInfo {
     @Id
-    @Getter
+    @Setter @Getter
     String vehicle_id;
-    @Getter
+    @Setter @Getter
     String name;
-    @Getter
+    @Setter @Getter
     String type;
-    @Getter
+    @Setter @Getter
     String status;
-    @Getter
+    @Setter @Getter
     String klass;
-    @Getter
+    @Setter @Getter
     String nation;
-    @Getter
+    @Setter @Getter
     String rank;
-    @Getter
+    @Setter @Getter
     String arcade_br;
-    @Getter
+    @Setter @Getter
     String realistic_br;
-    @Getter
+    @Setter @Getter
     String simulation_br;
-    @Getter
+    @Setter @Getter
     String picture;
 
     public VehicleInfo(String vehicle_id){

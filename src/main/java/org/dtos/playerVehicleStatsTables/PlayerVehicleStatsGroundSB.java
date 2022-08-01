@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.dtos.Player;
 import org.dtos.VehicleInfo;
 
 import javax.persistence.Entity;
@@ -17,10 +18,12 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class PlayerVehicleStatsGroundSB extends PlayerVehicleStats {
     @Id
-    String player_login;
+    @ManyToOne
+    @Setter @Getter
+    Player player;
     @Id
     @ManyToOne
-    @Getter
+    @Setter @Getter
     //@JoinTable(name = "VEHICLE_DETAILS")
     VehicleInfo vehicle;
     @Setter @Getter

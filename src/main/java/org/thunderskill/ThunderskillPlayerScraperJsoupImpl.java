@@ -80,17 +80,17 @@ public class ThunderskillPlayerScraperJsoupImpl implements ThunderskillPlayerScr
 
         Player player = new Player(login);
         if (type == VehicleType.Aircraft && mode == Modes.ARCADE)
-            return new PlayerVehicleStatsAirAB(login, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
+            return new PlayerVehicleStatsAirAB(player, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
         if (type == VehicleType.Aircraft && mode == Modes.REALISTIC)
-            return new PlayerVehicleStatsAirRB(login, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
+            return new PlayerVehicleStatsAirRB(player, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
         if (type == VehicleType.Aircraft && mode == Modes.SIMULATION)
-            return new PlayerVehicleStatsAirSB(login, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
+            return new PlayerVehicleStatsAirSB(player, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
         if (type == VehicleType.GroundVehicle && mode == Modes.ARCADE)
-            return new PlayerVehicleStatsGroundAB(login, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
+            return new PlayerVehicleStatsGroundAB(player, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
         if (type == VehicleType.GroundVehicle && mode == Modes.REALISTIC)
-            return new PlayerVehicleStatsGroundRB(login, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
+            return new PlayerVehicleStatsGroundRB(player, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
         if (type == VehicleType.GroundVehicle && mode == Modes.SIMULATION)
-            return new PlayerVehicleStatsGroundSB(login, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
+            return new PlayerVehicleStatsGroundSB(player, new VehicleInfo(vehicleId), battles, respawns, deaths, victories, defeats, airKills, groundKills);
         else
             throw new IllegalStateException("mode: " + type + "-" + mode + " not supported");
     }

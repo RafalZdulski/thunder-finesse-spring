@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ThunderSkill{
 
-    void update(String login) throws NoSuchPlayerException;
+    void update(String login);
 
     List<PlayerVehicleStats> getWithUpdate(String login, Modes mode, VehicleType type) throws NoSuchPlayerException;
 }
