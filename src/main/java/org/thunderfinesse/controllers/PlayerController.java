@@ -1,5 +1,6 @@
 package org.thunderfinesse.controllers;
 
+import org.dtos.PlayerModes;
 import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
@@ -17,8 +18,8 @@ public class PlayerController {
     private PlayerService playerService = new PlayerServiceImpl();
 
     @GetMapping("/{login}")
-    public String getPlayerStats(@PathVariable("login") String login){
-        return login;
+    public List<PlayerModes> getPlayerStats(@PathVariable("login") String login){
+        return playerService.getPlayerModesStats(login);
     }
 
     @GetMapping("/{login}/vehicles")
@@ -38,14 +39,9 @@ public class PlayerController {
         }
     }
 
-    @GetMapping("/{login}/graphs")
-    public String getPlayerModesStats(@PathVariable("login") String login, @RequestParam("mode") String mode){
-        return mode;
-    }
-
-    @PostMapping("/{login}")
+    @PostMapping("/{login}/update")
     public boolean updatePlayer(@PathVariable("login") String login){
-        return false;
+        return playerService.update(login) ;
     }
 
 }

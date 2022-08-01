@@ -1,9 +1,9 @@
 package org.thunderfinesse.services;
 
-import org.database.PlayerAlreadyInDatabaseException;
 import org.database.PlayerStatsAccessPoint;
-import org.database.postgre.WikiAccessPointPostgre;
+import org.database.postgre.PostgreAccessPoint;
 import org.dtos.Player;
+import org.dtos.PlayerModes;
 import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
@@ -27,10 +27,10 @@ public class PlayerServiceImpl implements PlayerService{
     private PlayerStatsAccessPoint playerStatsAccessPoint;
 
     public PlayerServiceImpl(){
-        PlayerStatsAccessPoint psap = new WikiAccessPointPostgre();
+        PlayerStatsAccessPoint psap = new PostgreAccessPoint();
         ThunderskillPlayerScrapper tsps = new ThunderskillPlayerScraperJsoupImpl();
         thunderSkill = new ThunderSkillImpl(psap, tsps);
-        playerStatsAccessPoint = new WikiAccessPointPostgre();
+        playerStatsAccessPoint = new PostgreAccessPoint();
     }
 
     @Override
@@ -41,5 +41,17 @@ public class PlayerServiceImpl implements PlayerService{
         }
         player = new Player(login);
         return playerStatsAccessPoint.getPlayerStats(player, mode, type);
+    }
+
+    @Override
+    public List<PlayerModes> getPlayerModesStats(String login) {
+        return playerStatsAccessPoint.getPlayerModes(login);
+    }
+
+    @Override
+    public boolean update(String login){
+        thunderSkill.update(login);
+        Player player = playerStatsAccessPoint.getPlayer(login);
+        return player == null;
     }
 }
