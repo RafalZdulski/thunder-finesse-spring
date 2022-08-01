@@ -1,10 +1,12 @@
 package org.database.postgre;
 
+import org.database.GameStatsAccessPoint;
 import org.database.PlayerAlreadyInDatabaseException;
 import org.database.PlayerStatsAccessPoint;
 import org.database.WikiAccessPoint;
 import org.dtos.Player;
 import org.dtos.PlayerModes;
+import org.dtos.VehicleStats;
 import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
 import org.dtos.VehicleInfo;
 import org.enums.Modes;
@@ -13,15 +15,15 @@ import org.enums.VehicleType;
 import javax.persistence.*;
 import java.util.List;
 
-public class WikiAccessPointPostgre implements WikiAccessPoint, PlayerStatsAccessPoint {
+public class PostgreAccessPoint implements WikiAccessPoint, PlayerStatsAccessPoint, GameStatsAccessPoint {
 
     private EntityManagerFactory emf;
 
-    public WikiAccessPointPostgre(EntityManagerFactory emf){
+    public PostgreAccessPoint(EntityManagerFactory emf){
         this.emf = emf;
     }
 
-    public WikiAccessPointPostgre() {
+    public PostgreAccessPoint() {
         emf = Persistence.createEntityManagerFactory("default");
     }
 
@@ -41,6 +43,16 @@ public class WikiAccessPointPostgre implements WikiAccessPoint, PlayerStatsAcces
         em.merge(vehicle);
         em.getTransaction().commit();
         em.close();
+    }
+
+    @Override
+    public List<String> getVehiclesIds(VehicleType type) {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("SELECT vehicle_id FROM VehicleInfo WHERE type = :type");
+        q.setParameter("type", type.toString());
+        List<String> ret = q.getResultList();
+        em.close();
+        return ret;
     }
 
     @Override
@@ -129,6 +141,63 @@ public class WikiAccessPointPostgre implements WikiAccessPoint, PlayerStatsAcces
         }
     }
 
+    @Override
+    public List<PlayerModes> getPlayerModes(String login) {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("SELECT c FROM PlayerModes c WHERE c.player.login = :login");
+        q.setParameter("login", login);
+        List<PlayerModes> ret = q.getResultList();
+        em.close();
+        return ret;
+    }
+
+    @Override
+    public void saveVehicleStat(VehicleStats vehicle) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(vehicle);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    @Override
+    public void updateVehicleStat(VehicleStats vehicle) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.merge(vehicle);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    @Override
+    public void upsertVehicleStat(VehicleStats vehicle) {
+        try{
+            saveVehicleStat(vehicle);
+        }catch (RollbackException | IllegalStateException e){
+            updateVehicleStat(vehicle);
+        }
+    }
+
+    @Override
+    public List<PlayerVehicleStats> getVehicleStatList(String vehicleId, Modes mode, VehicleType type) {
+        EntityManager em = emf.createEntityManager();
+        Query q = this.getVehicleStatsQuery(em, mode, type);
+        q.setParameter("vehicle_id", vehicleId);
+        List<PlayerVehicleStats> ret = q.getResultList();
+        em.close();
+        return ret;
+    }
+
+    @Override
+    public List<VehicleStats> getVehicleStat(String vehicleId) {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("SELECT c from VehicleStats c WHERE c.vehicle.vehicle_id = :vehicle_id");
+        q.setParameter("vehicle_id", vehicleId);
+        List<VehicleStats> ret = q.getResultList();
+        em.close();
+        return ret;
+    }
+
     //TODO there must be easy way to do this query
     private Query getPlayerStatsQuery(EntityManager em, Modes mode, VehicleType type) {
         if (mode == Modes.ARCADE && type == VehicleType.Aircraft)
@@ -146,4 +215,19 @@ public class WikiAccessPointPostgre implements WikiAccessPoint, PlayerStatsAcces
         throw new IllegalStateException("mode or type not supported");
     }
 
+    private Query getVehicleStatsQuery(EntityManager em, Modes mode, VehicleType type) {
+        if (mode == Modes.ARCADE && type == VehicleType.Aircraft)
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsAirAB c WHERE c.vehicle.vehicle_id = :vehicle_id");
+        if (mode == Modes.ARCADE && type == VehicleType.GroundVehicle)
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsGroundAB c WHERE c.vehicle.vehicle_id = :vehicle_id");
+        if (mode == Modes.REALISTIC && type == VehicleType.Aircraft)
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsAirRB c WHERE c.vehicle.vehicle_id = :vehicle_id");
+        if (mode == Modes.REALISTIC && type == VehicleType.GroundVehicle)
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsGroundRB c WHERE c.vehicle.vehicle_id = :vehicle_id");
+        if (mode == Modes.SIMULATION && type == VehicleType.Aircraft)
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsAirSB c WHERE c.vehicle.vehicle_id = :vehicle_id");
+        if (mode == Modes.SIMULATION && type == VehicleType.GroundVehicle)
+            return em.createQuery("SELECT c FROM PlayerVehicleStatsGroundSB c WHERE c.vehicle.vehicle_id = :vehicle_id");
+        throw new IllegalStateException("mode or type not supported");
+    }
 }

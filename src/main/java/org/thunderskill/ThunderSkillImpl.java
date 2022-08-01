@@ -2,7 +2,7 @@ package org.thunderskill;
 
 import org.database.PlayerAlreadyInDatabaseException;
 import org.database.PlayerStatsAccessPoint;
-import org.database.postgre.WikiAccessPointPostgre;
+import org.database.postgre.PostgreAccessPoint;
 import org.dtos.Player;
 import org.dtos.PlayerModes;
 import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
@@ -12,15 +12,14 @@ import org.enums.VehicleType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
 public class ThunderSkillImpl implements ThunderSkill {
     public static void main(String... args) {
-        PlayerStatsAccessPoint psap = new WikiAccessPointPostgre();
+        PlayerStatsAccessPoint psap = new PostgreAccessPoint();
         ThunderskillPlayerScrapper tsps = new ThunderskillPlayerScraperJsoupImpl();
         ThunderSkill thunderSkill = new ThunderSkillImpl(psap, tsps);
-        thunderSkill.update("Luigi012");
+        thunderSkill.update("FireSnakeballs");
     }
 
     PlayerStatsAccessPoint playerStatsAccessPoint;

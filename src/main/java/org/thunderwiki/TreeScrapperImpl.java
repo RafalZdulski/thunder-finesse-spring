@@ -83,6 +83,7 @@ public class TreeScrapperImpl implements TreeScrapper {
     @Override
     public List<VehicleInfo> getAllVehiclesInfo() {
         List<VehicleInfo> vehicles = new ArrayList<>();
+        //cannot implement concurrency here, because then it starts throwing SSLHandshakeException
         for (var nation : Nation.values())
             for (var type : VehicleType.values())
                 vehicles.addAll(getVehiclesInfo(nation, type));
