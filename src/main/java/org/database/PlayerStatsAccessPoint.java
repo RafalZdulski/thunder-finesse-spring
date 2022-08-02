@@ -17,6 +17,7 @@ public interface PlayerStatsAccessPoint {
     void savePlayer(Player player) throws PlayerAlreadyInDatabaseException;
     Player getPlayer(String login);
     List<PlayerVehicleStats> getPlayerStats(Player player, Modes mode, VehicleType type);
+    void deletePlayer(String login);
 
     void savePlayerMode(PlayerModes playerMode);
     void updatePlayerMode(PlayerModes playerMode);

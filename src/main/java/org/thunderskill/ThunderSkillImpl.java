@@ -13,16 +13,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ThunderSkillImpl implements ThunderSkill {
-    public static void main(String... args) {
-        PlayerStatsAccessPoint psap = new PostgrePlayerStatsAccessPoint();
-        ThunderskillPlayerScrapper tsps = new ThunderskillPlayerScraperJsoupImpl();
-        ThunderSkill thunderSkill = new ThunderSkillImpl(psap, tsps);
-        thunderSkill.update("FireSnakeballs");
-    }
-
     PlayerStatsAccessPoint playerStatsAccessPoint;
+
     ThunderskillPlayerScrapper thunderskillPlayerScrapper;
 
     public ThunderSkillImpl(PlayerStatsAccessPoint playerStatsAccessPoint, ThunderskillPlayerScrapper thunderskillPlayerScrapper) {
@@ -39,6 +34,8 @@ public class ThunderSkillImpl implements ThunderSkill {
         } catch (PlayerAlreadyInDatabaseException e){
             System.err.println(e.getMessage());
         }
+
+        AtomicBoolean playerNotFound = new AtomicBoolean(false);
 
         CountDownLatch countDownLatch = new CountDownLatch(6);
         for (var mode : Modes.values())
@@ -71,7 +68,7 @@ public class ThunderSkillImpl implements ThunderSkill {
                     }catch (IOException e) {
                         throw new RuntimeException(e);
                     } catch (NoSuchPlayerException e) {
-                        //playerStatsAccessPoint.removePlayer(player);
+                        playerNotFound.set(true);
                         System.err.println(e.getMessage());
                     } finally {
                         countDownLatch.countDown();
@@ -83,6 +80,9 @@ public class ThunderSkillImpl implements ThunderSkill {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        if (playerNotFound.get())
+            playerStatsAccessPoint.deletePlayer(login);
 
     }
 

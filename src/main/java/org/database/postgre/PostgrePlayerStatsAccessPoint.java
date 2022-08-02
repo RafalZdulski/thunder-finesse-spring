@@ -87,6 +87,17 @@ public class PostgrePlayerStatsAccessPoint implements PlayerStatsAccessPoint {
     }
 
     @Override
+    public void deletePlayer(String login) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Query q = em.createQuery("DELETE FROM Player p WHERE p.login = :login");
+        q.setParameter("login", login);
+        q.executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    @Override
     public void savePlayerMode(PlayerModes playerMode) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();

@@ -12,17 +12,6 @@ import org.thunderskill.*;
 import java.util.List;
 
 public class PlayerServiceImpl implements PlayerService{
-    public static void main(String... args){
-        var v = new PlayerServiceImpl();
-        List<PlayerVehicleStats> x;
-        try {
-            x = v.getPlayerVehiclesStats("Luigi012", Modes.REALISTIC, VehicleType.GroundVehicle);
-        } catch (NoSuchPlayerException e) {
-            throw new RuntimeException(e);
-        }
-        System.err.println("");
-    }
-
     private ThunderSkill thunderSkill;
     private PlayerStatsAccessPoint playerStatsAccessPoint;
 
@@ -45,6 +34,10 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public List<PlayerModes> getPlayerModesStats(String login) {
+        Player player = playerStatsAccessPoint.getPlayer(login);
+        if (player == null) {
+            thunderSkill.update(login);
+        }
         return playerStatsAccessPoint.getPlayerModes(login);
     }
 
