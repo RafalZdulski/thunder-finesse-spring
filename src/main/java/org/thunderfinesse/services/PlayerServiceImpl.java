@@ -1,7 +1,7 @@
 package org.thunderfinesse.services;
 
 import org.database.PlayerStatsAccessPoint;
-import org.database.postgre.PostgreAccessPoint;
+import org.database.postgre.PostgrePlayerStatsAccessPoint;
 import org.dtos.Player;
 import org.dtos.PlayerModes;
 import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
@@ -27,10 +27,10 @@ public class PlayerServiceImpl implements PlayerService{
     private PlayerStatsAccessPoint playerStatsAccessPoint;
 
     public PlayerServiceImpl(){
-        PlayerStatsAccessPoint psap = new PostgreAccessPoint();
+        PlayerStatsAccessPoint psap = new PostgrePlayerStatsAccessPoint();
         ThunderskillPlayerScrapper tsps = new ThunderskillPlayerScraperJsoupImpl();
         thunderSkill = new ThunderSkillImpl(psap, tsps);
-        playerStatsAccessPoint = new PostgreAccessPoint();
+        playerStatsAccessPoint = new PostgrePlayerStatsAccessPoint();
     }
 
     @Override

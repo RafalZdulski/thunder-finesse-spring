@@ -1,7 +1,7 @@
 package org.thunderfinesse.controllers;
 
-import lombok.Getter;
-import org.database.postgre.PostgreAccessPoint;
+import org.database.postgre.PostgreGameStatsAccessPoint;
+import org.database.postgre.PostgrePlayerStatsAccessPoint;
 import org.dtos.VehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/vehicles")
 @CrossOrigin(origins = "http://localhost:4200")
 public class VehicleController {
-    private VehicleService vehicleService = new VehicleServiceImpl(new PostgreAccessPoint());
+    private VehicleService vehicleService = new VehicleServiceImpl(new PostgreGameStatsAccessPoint());
 
     @GetMapping("/{vehicleId}")
     public List<VehicleStats> getVehicleStats(@PathVariable("vehicleId") String vehicleId){

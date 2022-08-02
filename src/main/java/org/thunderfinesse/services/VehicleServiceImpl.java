@@ -3,7 +3,9 @@ package org.thunderfinesse.services;
 import org.database.GameStatsAccessPoint;
 import org.database.PlayerStatsAccessPoint;
 import org.database.WikiAccessPoint;
-import org.database.postgre.PostgreAccessPoint;
+import org.database.postgre.PostgreGameStatsAccessPoint;
+import org.database.postgre.PostgrePlayerStatsAccessPoint;
+import org.database.postgre.PostgreWikiAccessPoint;
 import org.dtos.VehicleInfo;
 import org.dtos.VehicleStats;
 import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
@@ -16,8 +18,10 @@ import java.util.concurrent.CountDownLatch;
 public class VehicleServiceImpl implements VehicleService {
 
     public static void main(String... args){
-        PostgreAccessPoint pap = new PostgreAccessPoint();
-        VehicleService vehicleService = new VehicleServiceImpl(pap,pap,pap);
+        PostgreGameStatsAccessPoint gsap = new PostgreGameStatsAccessPoint();
+        PostgreWikiAccessPoint wap = new PostgreWikiAccessPoint();
+        PostgrePlayerStatsAccessPoint pap = new PostgrePlayerStatsAccessPoint();
+        VehicleService vehicleService = new VehicleServiceImpl(gsap,wap,pap);
         vehicleService.update();
     }
 

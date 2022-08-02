@@ -1,7 +1,8 @@
 package org.thunderwiki;
 
 import org.database.WikiAccessPoint;
-import org.database.postgre.PostgreAccessPoint;
+import org.database.postgre.PostgrePlayerStatsAccessPoint;
+import org.database.postgre.PostgreWikiAccessPoint;
 import org.dtos.VehicleInfo;
 import org.enums.Nation;
 import org.enums.VehicleType;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class ThunderWikiImpl implements ThunderWiki{
     public static void main(String... args){
-        WikiAccessPoint wap = new PostgreAccessPoint();
+        WikiAccessPoint wap = new PostgreWikiAccessPoint();
         TreeScrapper ts = new TreeScrapperImpl(new VehicleScrapperJsoupImpl());
         ThunderWiki thunderWiki = new ThunderWikiImpl(wap,ts);
         thunderWiki.updateAll();

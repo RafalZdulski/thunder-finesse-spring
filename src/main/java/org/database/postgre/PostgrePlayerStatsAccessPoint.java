@@ -15,44 +15,16 @@ import org.enums.VehicleType;
 import javax.persistence.*;
 import java.util.List;
 
-public class PostgreAccessPoint implements WikiAccessPoint, PlayerStatsAccessPoint, GameStatsAccessPoint {
+public class PostgrePlayerStatsAccessPoint implements PlayerStatsAccessPoint {
 
     private EntityManagerFactory emf;
 
-    public PostgreAccessPoint(EntityManagerFactory emf){
+    public PostgrePlayerStatsAccessPoint(EntityManagerFactory emf){
         this.emf = emf;
     }
 
-    public PostgreAccessPoint() {
+    public PostgrePlayerStatsAccessPoint() {
         emf = Persistence.createEntityManagerFactory("default");
-    }
-
-    @Override
-    public void saveVehicle(VehicleInfo vehicle) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(vehicle);
-        em.getTransaction().commit();
-        em.close();
-    }
-
-    @Override
-    public void updateVehicle(VehicleInfo vehicle) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.merge(vehicle);
-        em.getTransaction().commit();
-        em.close();
-    }
-
-    @Override
-    public List<String> getVehiclesIds(VehicleType type) {
-        EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("SELECT vehicle_id FROM VehicleInfo WHERE type = :type");
-        q.setParameter("type", type.toString());
-        List<String> ret = q.getResultList();
-        em.close();
-        return ret;
     }
 
     @Override
@@ -152,33 +124,6 @@ public class PostgreAccessPoint implements WikiAccessPoint, PlayerStatsAccessPoi
     }
 
     @Override
-    public void saveVehicleStat(VehicleStats vehicle) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(vehicle);
-        em.getTransaction().commit();
-        em.close();
-    }
-
-    @Override
-    public void updateVehicleStat(VehicleStats vehicle) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.merge(vehicle);
-        em.getTransaction().commit();
-        em.close();
-    }
-
-    @Override
-    public void upsertVehicleStat(VehicleStats vehicle) {
-        try{
-            saveVehicleStat(vehicle);
-        }catch (RollbackException | IllegalStateException e){
-            updateVehicleStat(vehicle);
-        }
-    }
-
-    @Override
     public List<PlayerVehicleStats> getVehicleStatList(String vehicleId, Modes mode, VehicleType type) {
         EntityManager em = emf.createEntityManager();
         Query q = this.getVehicleStatsQuery(em, mode, type);
@@ -188,28 +133,7 @@ public class PostgreAccessPoint implements WikiAccessPoint, PlayerStatsAccessPoi
         return ret;
     }
 
-    @Override
-    public List<VehicleStats> getVehicleStat(String vehicleId) {
-        EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("SELECT c from VehicleStats c WHERE c.vehicle.vehicle_id = :vehicle_id");
-        q.setParameter("vehicle_id", vehicleId);
-        List<VehicleStats> ret = q.getResultList();
-        em.close();
-        return ret;
-    }
-
-    @Override
-    public List<VehicleStats> getVehiclesStats(Modes mode, VehicleType type) {
-        EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("SELECT c from VehicleStats c WHERE c.Mode = :mode AND c.vehicle.type = :type");
-        q.setParameter("mode", mode.toString().toLowerCase());
-        q.setParameter("type", type.toString());
-        List<VehicleStats> ret = q.getResultList();
-        em.close();
-        return ret;
-    }
-
-    //TODO there must be easy way to do this query
+    //TODO there must be easy way to do this queries
     private Query getPlayerStatsQuery(EntityManager em, Modes mode, VehicleType type) {
         if (mode == Modes.ARCADE && type == VehicleType.Aircraft)
             return em.createQuery("SELECT c FROM PlayerVehicleStatsAirAB c WHERE c.player.login = :login");

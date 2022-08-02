@@ -2,7 +2,7 @@ package org.thunderskill;
 
 import org.database.PlayerAlreadyInDatabaseException;
 import org.database.PlayerStatsAccessPoint;
-import org.database.postgre.PostgreAccessPoint;
+import org.database.postgre.PostgrePlayerStatsAccessPoint;
 import org.dtos.Player;
 import org.dtos.PlayerModes;
 import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
@@ -16,7 +16,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class ThunderSkillImpl implements ThunderSkill {
     public static void main(String... args) {
-        PlayerStatsAccessPoint psap = new PostgreAccessPoint();
+        PlayerStatsAccessPoint psap = new PostgrePlayerStatsAccessPoint();
         ThunderskillPlayerScrapper tsps = new ThunderskillPlayerScraperJsoupImpl();
         ThunderSkill thunderSkill = new ThunderSkillImpl(psap, tsps);
         thunderSkill.update("FireSnakeballs");
