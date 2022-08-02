@@ -77,4 +77,9 @@ public class VehicleServiceImpl implements VehicleService {
     public List<VehicleStats> getVehicleStats(String vehicleId) {
         return gameStatsAccessPoint.getVehicleStat(vehicleId);
     }
+
+    @Override
+    public List<VehicleStats> getVehiclesStats(Modes mode, VehicleType type) {
+        return gameStatsAccessPoint.getVehiclesStats(mode, type);
+    }
 }

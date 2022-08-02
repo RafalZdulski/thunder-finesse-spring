@@ -198,6 +198,17 @@ public class PostgreAccessPoint implements WikiAccessPoint, PlayerStatsAccessPoi
         return ret;
     }
 
+    @Override
+    public List<VehicleStats> getVehiclesStats(Modes mode, VehicleType type) {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("SELECT c from VehicleStats c WHERE c.Mode = :mode AND c.vehicle.type = :type");
+        q.setParameter("mode", mode.toString().toLowerCase());
+        q.setParameter("type", type.toString());
+        List<VehicleStats> ret = q.getResultList();
+        em.close();
+        return ret;
+    }
+
     //TODO there must be easy way to do this query
     private Query getPlayerStatsQuery(EntityManager em, Modes mode, VehicleType type) {
         if (mode == Modes.ARCADE && type == VehicleType.Aircraft)

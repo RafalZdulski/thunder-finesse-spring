@@ -11,4 +11,6 @@ public interface GameStatsAccessPoint {
     void updateVehicleStat(VehicleStats vehicle);
     void upsertVehicleStat(VehicleStats vehicle);
     List<VehicleStats> getVehicleStat(String vehicleId);
+    List<VehicleStats> getVehiclesStats(Modes mode, VehicleType type);
+
 }

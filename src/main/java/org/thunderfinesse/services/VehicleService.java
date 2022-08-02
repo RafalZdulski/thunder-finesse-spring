@@ -10,4 +10,5 @@ import java.util.List;
 public interface VehicleService {
     void update();
     List<VehicleStats> getVehicleStats(String vehicleId);
+    List<VehicleStats> getVehiclesStats(Modes mode, VehicleType type);
 }
