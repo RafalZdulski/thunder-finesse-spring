@@ -103,9 +103,6 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     private VehicleStatsResponse toVehicleResponse(List<VehicleStats> vehicleStats){
-        if (vehicleStats.size()%3 == 0)
-            throw new IllegalArgumentException("vehicle stats list should be divisible by 3, size " + vehicleStats.size());
-
         VehicleStatsResponse response = new VehicleStatsResponse();
         response.setVehicleInfo(vehicleStats.get(0).getVehicle());
         for (var stat : vehicleStats){
