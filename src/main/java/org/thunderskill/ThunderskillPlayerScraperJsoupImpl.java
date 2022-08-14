@@ -1,8 +1,8 @@
 package org.thunderskill;
 
-import org.dtos.Player;
-import org.dtos.VehicleInfo;
-import org.dtos.playerVehicleStatsTables.*;
+import org.database.dtos.Player;
+import org.database.dtos.VehicleInfo;
+import org.database.dtos.playerVehicleStats.*;
 import org.enums.Modes;
 import org.enums.VehicleType;
 import org.jsoup.Jsoup;

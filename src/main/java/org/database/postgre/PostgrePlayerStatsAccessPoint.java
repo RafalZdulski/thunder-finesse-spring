@@ -1,14 +1,10 @@
 package org.database.postgre;
 
-import org.database.GameStatsAccessPoint;
 import org.database.PlayerAlreadyInDatabaseException;
 import org.database.PlayerStatsAccessPoint;
-import org.database.WikiAccessPoint;
-import org.dtos.Player;
-import org.dtos.PlayerModes;
-import org.dtos.VehicleStats;
-import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
-import org.dtos.VehicleInfo;
+import org.database.dtos.Player;
+import org.database.dtos.PlayerModes;
+import org.database.dtos.playerVehicleStats.PlayerVehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
 

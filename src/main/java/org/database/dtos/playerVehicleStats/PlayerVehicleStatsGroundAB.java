@@ -1,11 +1,11 @@
-package org.dtos.playerVehicleStatsTables;
+package org.database.dtos.playerVehicleStats;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.dtos.Player;
-import org.dtos.VehicleInfo;
+import org.database.dtos.Player;
+import org.database.dtos.VehicleInfo;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -5,8 +5,8 @@
              version="2.1">
 
     <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
-        <class>org.dtos.VehicleInfo</class>
-        <class>org.dtos.playerVehicleStatsTables.PlayerVehicleStatsGroundRB</class>
+        <class>org.database.dtos.VehicleInfo</class>
+        <class>org.database.dtos.playerVehicleStats.PlayerVehicleStatsGroundRB</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->

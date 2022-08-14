@@ -6,12 +6,15 @@ import org.database.WikiAccessPoint;
 import org.database.postgre.PostgreGameStatsAccessPoint;
 import org.database.postgre.PostgrePlayerStatsAccessPoint;
 import org.database.postgre.PostgreWikiAccessPoint;
-import org.dtos.VehicleInfo;
-import org.dtos.VehicleStats;
-import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
+import org.database.dtos.VehicleInfo;
+import org.database.dtos.VehicleStats;
+import org.database.dtos.playerVehicleStats.PlayerVehicleStats;
+import org.dtos.VehicleModeStats;
+import org.dtos.VehicleStatsResponse;
 import org.enums.Modes;
 import org.enums.VehicleType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -78,12 +81,43 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public List<VehicleStats> getVehicleStats(String vehicleId) {
-        return gameStatsAccessPoint.getVehicleStat(vehicleId);
+    public VehicleStatsResponse getVehicleStats(String vehicleId) {
+        List<VehicleStats> vehicleStats = gameStatsAccessPoint.getVehicleStat(vehicleId);
+        if (vehicleStats.isEmpty())
+            return null;
+        return this.toVehicleResponse(vehicleStats);
     }
 
     @Override
-    public List<VehicleStats> getVehiclesStats(Modes mode, VehicleType type) {
-        return gameStatsAccessPoint.getVehiclesStats(mode, type);
+    public List<VehicleStatsResponse> getVehiclesStats(Modes mode, VehicleType type) {
+         List<VehicleStats> stats = gameStatsAccessPoint.getVehiclesStats(mode, type);
+         List<VehicleStatsResponse> response = new ArrayList<>();
+         while (!stats.isEmpty()){
+             VehicleStats vReference = stats.get(0);
+             List<VehicleStats> sameVehicleStats = stats.stream().filter(v ->
+                     v.getVehicle().getVehicle_id().equals(vReference.getVehicle().getVehicle_id())).toList();
+             response.add(this.toVehicleResponse(sameVehicleStats));
+             stats.removeAll(sameVehicleStats);
+         }
+         return response;
+    }
+
+    private VehicleStatsResponse toVehicleResponse(List<VehicleStats> vehicleStats){
+        if (vehicleStats.size()%3 == 0)
+            throw new IllegalArgumentException("vehicle stats list should be divisible by 3, size " + vehicleStats.size());
+
+        VehicleStatsResponse response = new VehicleStatsResponse();
+        response.setVehicleInfo(vehicleStats.get(0).getVehicle());
+        for (var stat : vehicleStats){
+            VehicleModeStats modeStats = new VehicleModeStats(
+                    stat.getBattles(),stat.getSpawns(),stat.getDeaths(), stat.getWins(),
+                    stat.getDefeats(), stat.getAir_kills(), stat.getGround_kills());
+            switch (stat.getMode()){
+                case "arcade" -> response.setArcade(modeStats);
+                case "realistic" -> response.setRealistic(modeStats);
+                case "simulation" -> response.setSimulation(modeStats);
+            }
+        }
+        return response;
     }
 }

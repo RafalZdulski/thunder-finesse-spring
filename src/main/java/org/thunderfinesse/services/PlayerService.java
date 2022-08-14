@@ -1,7 +1,7 @@
 package org.thunderfinesse.services;
 
-import org.dtos.PlayerModes;
-import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
+import org.database.dtos.PlayerModes;
+import org.database.dtos.playerVehicleStats.PlayerVehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
 import org.thunderskill.NoSuchPlayerException;

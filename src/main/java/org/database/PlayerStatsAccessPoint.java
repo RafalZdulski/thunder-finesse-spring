@@ -1,9 +1,8 @@
 package org.database;
 
-import org.dtos.Player;
-import org.dtos.PlayerModes;
-import org.dtos.VehicleStats;
-import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
+import org.database.dtos.Player;
+import org.database.dtos.PlayerModes;
+import org.database.dtos.playerVehicleStats.PlayerVehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
 

@@ -1,4 +1,4 @@
-package org.dtos.playerVehicleStatsTables;
+package org.database.dtos.playerVehicleStats;
 
 import lombok.*;
 

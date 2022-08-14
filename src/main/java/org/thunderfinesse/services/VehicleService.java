@@ -1,7 +1,7 @@
 package org.thunderfinesse.services;
 
-import org.dtos.VehicleStats;
-import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
+import org.database.dtos.VehicleStats;
+import org.dtos.VehicleStatsResponse;
 import org.enums.Modes;
 import org.enums.VehicleType;
 
@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface VehicleService {
     void update();
-    List<VehicleStats> getVehicleStats(String vehicleId);
-    List<VehicleStats> getVehiclesStats(Modes mode, VehicleType type);
+    VehicleStatsResponse getVehicleStats(String vehicleId);
+    List<VehicleStatsResponse> getVehiclesStats(Modes mode, VehicleType type);
 }

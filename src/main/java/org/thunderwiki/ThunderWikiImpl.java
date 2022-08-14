@@ -1,9 +1,8 @@
 package org.thunderwiki;
 
 import org.database.WikiAccessPoint;
-import org.database.postgre.PostgrePlayerStatsAccessPoint;
 import org.database.postgre.PostgreWikiAccessPoint;
-import org.dtos.VehicleInfo;
+import org.database.dtos.VehicleInfo;
 import org.enums.Nation;
 import org.enums.VehicleType;
 

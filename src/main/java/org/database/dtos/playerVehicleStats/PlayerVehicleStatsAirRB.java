@@ -1,11 +1,11 @@
-package org.dtos.playerVehicleStatsTables;
+package org.database.dtos.playerVehicleStats;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.dtos.Player;
-import org.dtos.VehicleInfo;
+import org.database.dtos.Player;
+import org.database.dtos.VehicleInfo;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,10 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PLAYER_VEHICLES_STATS_AIR_SB")
+@Table(name = "PLAYER_VEHICLES_STATS_AIR_RB")
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlayerVehicleStatsAirSB extends PlayerVehicleStats {
+public class PlayerVehicleStatsAirRB extends PlayerVehicleStats {
     @Id
     @ManyToOne
     @Setter @Getter

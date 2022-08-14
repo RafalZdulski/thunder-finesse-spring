@@ -2,9 +2,9 @@ package org.thunderfinesse.services;
 
 import org.database.PlayerStatsAccessPoint;
 import org.database.postgre.PostgrePlayerStatsAccessPoint;
-import org.dtos.Player;
-import org.dtos.PlayerModes;
-import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
+import org.database.dtos.Player;
+import org.database.dtos.PlayerModes;
+import org.database.dtos.playerVehicleStats.PlayerVehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
 import org.thunderskill.*;

@@ -1,7 +1,7 @@
 package org.database.postgre;
 
 import org.database.WikiAccessPoint;
-import org.dtos.VehicleInfo;
+import org.database.dtos.VehicleInfo;
 import org.enums.VehicleType;
 
 import javax.persistence.EntityManager;

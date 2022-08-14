@@ -1,6 +1,6 @@
 package org.database;
 
-import org.dtos.VehicleStats;
+import org.database.dtos.VehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
 

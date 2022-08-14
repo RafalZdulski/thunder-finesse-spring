@@ -1,9 +1,10 @@
-package org.dtos;
+package org.database.dtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.enums.Modes;
+import org.enums.VehicleType;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,15 +14,18 @@ import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "VEHICLE_STATS")
-public class VehicleStats implements Serializable {
+@Table(name = "PLAYER_MODES_DETAILS")
+public class PlayerModes implements Serializable {
     @Id
     @ManyToOne
     @Setter @Getter
-    VehicleInfo vehicle;
+    Player player;
     @Id
     @Setter @Getter
-    String Mode;
+    String mode;
+    @Id
+    @Setter @Getter
+    String vehicle_type;
     @Setter @Getter
     int battles;
     @Setter @Getter
@@ -37,10 +41,10 @@ public class VehicleStats implements Serializable {
     @Setter @Getter
     int ground_kills;
 
-
-    public VehicleStats(VehicleInfo vehicle, Modes mode, int battles, int spawns, int deaths, int wins, int defeats, int air_kills, int ground_kills) {
-        this.vehicle = vehicle;
-        Mode = mode.toString().toLowerCase();
+    public PlayerModes(Player player, Modes mode, VehicleType vehicle_type, int battles, int spawns, int deaths, int wins, int defeats, int air_kills, int ground_kills) {
+        this.player = player;
+        this.mode = mode.toString().toLowerCase();
+        this.vehicle_type = vehicle_type.toString();
         this.battles = battles;
         this.spawns = spawns;
         this.deaths = deaths;

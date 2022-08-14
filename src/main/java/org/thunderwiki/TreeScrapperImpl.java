@@ -1,6 +1,6 @@
 package org.thunderwiki;
 
-import org.dtos.VehicleInfo;
+import org.database.dtos.VehicleInfo;
 import org.enums.Nation;
 import org.enums.VehicleType;
 import org.jsoup.Jsoup;

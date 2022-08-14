@@ -1,6 +1,6 @@
 package org.thunderskill;
 
-import org.dtos.playerVehicleStatsTables.PlayerVehicleStats;
+import org.database.dtos.playerVehicleStats.PlayerVehicleStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
 
