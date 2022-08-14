@@ -89,8 +89,8 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public List<VehicleStatsResponse> getVehiclesStats(Modes mode, VehicleType type) {
-         List<VehicleStats> stats = gameStatsAccessPoint.getVehiclesStats(mode, type);
+    public List<VehicleStatsResponse> getVehiclesStats(VehicleType type) {
+         List<VehicleStats> stats = gameStatsAccessPoint.getVehiclesStats(type);
          List<VehicleStatsResponse> response = new ArrayList<>();
          while (!stats.isEmpty()){
              VehicleStats vReference = stats.get(0);

@@ -67,4 +67,13 @@ public class PostgreGameStatsAccessPoint implements GameStatsAccessPoint {
         return ret;
     }
 
+    @Override
+    public List<VehicleStats> getVehiclesStats(VehicleType type) {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("SELECT c from VehicleStats c WHERE c.vehicle.type = :type");
+        q.setParameter("type", type.toString());
+        List<VehicleStats> ret = q.getResultList();
+        em.close();
+        return ret;
+    }
 }

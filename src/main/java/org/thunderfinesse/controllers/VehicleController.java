@@ -1,5 +1,6 @@
 package org.thunderfinesse.controllers;
 
+import org.database.dtos.VehicleInfo;
 import org.database.postgre.PostgreGameStatsAccessPoint;
 import org.database.dtos.VehicleStats;
 import org.dtos.VehicleStatsResponse;
@@ -22,18 +23,16 @@ public class VehicleController {
         return vehicleService.getVehicleStats(vehicleId);
     }
 
-    @GetMapping
-    public List<VehicleStatsResponse> getVehiclesStats(@RequestParam("mode") String mode){
-        return switch (mode.toLowerCase()) {
-            case "air_ab" -> vehicleService.getVehiclesStats(Modes.ARCADE, VehicleType.Aircraft);
-            case "air_rb" -> vehicleService.getVehiclesStats(Modes.REALISTIC, VehicleType.Aircraft);
-            case "air_sb" -> vehicleService.getVehiclesStats(Modes.SIMULATION, VehicleType.Aircraft);
-            case "ground_ab" -> vehicleService.getVehiclesStats(Modes.ARCADE, VehicleType.GroundVehicle);
-            case "ground_rb" -> vehicleService.getVehiclesStats(Modes.REALISTIC, VehicleType.GroundVehicle);
-            case "ground_sb" -> vehicleService.getVehiclesStats(Modes.SIMULATION, VehicleType.GroundVehicle);
+    @GetMapping("/stats")
+    public List<VehicleStatsResponse> getVehiclesStats(@RequestParam("type") String type){
+        return switch (type.toLowerCase()) {
+            case "air" -> vehicleService.getVehiclesStats(VehicleType.Aircraft);
+            case "ground" -> vehicleService.getVehiclesStats(VehicleType.GroundVehicle);
             default -> null;
         };
     }
+
+
 
 
 }
