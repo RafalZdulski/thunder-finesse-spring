@@ -104,7 +104,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     private VehicleStatsResponse toVehicleResponse(List<VehicleStats> vehicleStats){
         VehicleStatsResponse response = new VehicleStatsResponse();
-        response.setVehicleInfo(vehicleStats.get(0).getVehicle());
+        response.setVehicle(vehicleStats.get(0).getVehicle());
         for (var stat : vehicleStats){
             VehicleModeStats modeStats = new VehicleModeStats(
                     stat.getBattles(),stat.getSpawns(),stat.getDeaths(), stat.getWins(),

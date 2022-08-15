@@ -10,7 +10,7 @@ import org.database.dtos.VehicleInfo;
 @NoArgsConstructor
 public class VehicleStatsResponse {
     @Setter @Getter
-    private VehicleInfo vehicleInfo;
+    private VehicleInfo vehicle;
     @Setter @Getter
     private VehicleModeStats arcade;
     @Setter @Getter
