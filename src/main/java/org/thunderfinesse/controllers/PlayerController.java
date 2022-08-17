@@ -1,7 +1,7 @@
 package org.thunderfinesse.controllers;
 
-import org.database.dtos.PlayerModes;
 import org.database.dtos.playerVehicleStats.PlayerVehicleStats;
+import org.dtos.PlayerStatsResponse;
 import org.enums.Modes;
 import org.enums.VehicleType;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ public class PlayerController {
     private PlayerService playerService = new PlayerServiceImpl();
 
     @GetMapping("/{login}")
-    public List<PlayerModes> getPlayerStats(@PathVariable("login") String login){
+    public PlayerStatsResponse getPlayerStats(@PathVariable("login") String login){
         return playerService.getPlayerModesStats(login);
     }
 

@@ -5,10 +5,13 @@ import org.database.postgre.PostgrePlayerStatsAccessPoint;
 import org.database.dtos.Player;
 import org.database.dtos.PlayerModes;
 import org.database.dtos.playerVehicleStats.PlayerVehicleStats;
+import org.dtos.PlayerStatsResponse;
+import org.dtos.VehicleModeStats;
 import org.enums.Modes;
 import org.enums.VehicleType;
 import org.thunderskill.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class PlayerServiceImpl implements PlayerService{
@@ -33,12 +36,25 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
-    public List<PlayerModes> getPlayerModesStats(String login) {
+    public PlayerStatsResponse getPlayerModesStats(String login) {
         Player player = playerStatsAccessPoint.getPlayer(login);
-        if (player == null) {
+        if (player == null)
             thunderSkill.update(login);
-        }
-        return playerStatsAccessPoint.getPlayerModes(login);
+        List<PlayerModes> playerModes = playerStatsAccessPoint.getPlayerModes(login);
+        if (playerModes == null || playerModes.isEmpty())
+            return null;
+
+        //sorting: air_ab, ground_ab, air_rb, ground_rb, air_sb, ground_sb
+        playerModes.sort(Comparator.comparing(PlayerModes::getMode).thenComparing(PlayerModes::getVehicle_type));
+        PlayerStatsResponse response = new PlayerStatsResponse(login);
+        response.setAir_ab(toVehicleModeStats(playerModes.get(0)));
+        response.setGround_ab(toVehicleModeStats(playerModes.get(1)));
+        response.setAir_rb(toVehicleModeStats(playerModes.get(2)));
+        response.setGround_rb(toVehicleModeStats(playerModes.get(3)));
+        response.setAir_sb(toVehicleModeStats(playerModes.get(4)));
+        response.setGround_sb(toVehicleModeStats(playerModes.get(5)));
+
+        return response;
     }
 
     @Override
@@ -46,5 +62,17 @@ public class PlayerServiceImpl implements PlayerService{
         thunderSkill.update(login);
         Player player = playerStatsAccessPoint.getPlayer(login);
         return player == null;
+    }
+
+    private VehicleModeStats toVehicleModeStats(PlayerModes playerModes){
+        return new VehicleModeStats(
+                playerModes.getBattles(),
+                playerModes.getSpawns(),
+                playerModes.getDeaths(),
+                playerModes.getWins(),
+                playerModes.getDefeats(),
+                playerModes.getAir_kills(),
+                playerModes.getGround_kills()
+        );
     }
 }

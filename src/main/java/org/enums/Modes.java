@@ -13,4 +13,9 @@ public enum Modes {
 
     @Getter
     private String letter;
+
+    @Override
+    public String toString() {
+        return super.toString().toLowerCase();
+    }
 }

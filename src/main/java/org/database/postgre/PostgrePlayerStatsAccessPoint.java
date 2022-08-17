@@ -131,6 +131,18 @@ public class PostgrePlayerStatsAccessPoint implements PlayerStatsAccessPoint {
     }
 
     @Override
+    public PlayerModes getPlayerMode(String login, Modes mode, VehicleType type) {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("SELECT c FROM PlayerModes c WHERE c.player.login = :login AND c.mode = :mode AND c.vehicle_type = :vehicle_type");
+        q.setParameter("login", login);
+        q.setParameter("mode", mode.toString());
+        q.setParameter("vehicle_type", type.toString());
+        PlayerModes ret = (PlayerModes) q.getResultList().stream().findFirst().orElse(null);
+        em.close();
+        return ret;
+    }
+
+    @Override
     public List<PlayerVehicleStats> getVehicleStatList(String vehicleId, Modes mode, VehicleType type) {
         EntityManager em = emf.createEntityManager();
         Query q = this.getVehicleStatsQuery(em, mode, type);

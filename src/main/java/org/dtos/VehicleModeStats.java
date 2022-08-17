@@ -6,8 +6,7 @@ import lombok.Setter;
 
 @AllArgsConstructor
 public class VehicleModeStats{
-    @Setter
-    @Getter
+    @Setter @Getter
     int battles;
     @Setter @Getter
     int spawns;

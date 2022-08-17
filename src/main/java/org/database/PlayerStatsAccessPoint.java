@@ -23,6 +23,7 @@ public interface PlayerStatsAccessPoint {
     void upsertPlayerMode(PlayerModes playerMode);
 
     List<PlayerModes> getPlayerModes(String login);
+    PlayerModes getPlayerMode(String login, Modes mode, VehicleType type);
 
     List<PlayerVehicleStats> getVehicleStatList(String vehicleId, Modes mode, VehicleType type);
 }
